@@ -20,7 +20,7 @@ yarn start if you have yarn.
 
 ```
 
-## Future works
+## TODO
 Feature to delete decks and questions.
 Feature for users to choose notification time or turn notification off.
 

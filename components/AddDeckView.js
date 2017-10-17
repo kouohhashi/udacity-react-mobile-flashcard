@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import { white, darkBrown } from '../utils/colors'
 import { addDeckToStorage, fetchDeckFromStorage } from '../utils/api'
 import { addNewDeck } from '../actions/UserActions'
+import { NavigationActions } from 'react-navigation'
 
 class AddDeckView extends Component {
 
@@ -27,7 +28,54 @@ class AddDeckView extends Component {
     })
   }
 
+  aaabbb = () => {
+    console.log("aaabbb:")
+  }
+
+  // add a new deck.
   addNewDeckRequest = () => {
+
+    const { navigation } = this.props
+    console.log(navigation)
+
+    // // DeckListView, DeckCard
+    // const { navigation } = this.props
+    // navigation.navigate(
+    //   'DeckListView',
+    //   {
+    //     title: 'Tast1',
+    //   },
+    // )
+
+    // const navigateAction = NavigationActions.navigate({
+    //   routeName: 'DeckCard',
+    //   params: {title: 'Tast1'},
+    //
+    //   // navigate can have a nested navigate action that will be run inside the child router
+    //   action: NavigationActions.navigate({
+    //     routeName: 'DeckCard',
+    //     params: {title: 'Tast1'},
+    //   })
+    // })
+    // this.props.navigation.dispatch(navigateAction)
+
+
+    // const navigateAction = NavigationActions.reset({
+    //   index: 1,
+    //   actions: [
+    //     NavigationActions.navigate({
+    //       routeName: 'Home',
+    //       params: {title: 'Tast1'},
+    //     }),
+    //     NavigationActions.navigate({
+    //       routeName: 'DeckCard',
+    //       params: {title: 'Tast1'},
+    //     }),
+    //   ]
+    // })
+    // this.props.navigation.dispatch(navigateAction)
+
+    // return;
 
     // close keyboard
     Keyboard.dismiss()
@@ -64,12 +112,12 @@ class AddDeckView extends Component {
       // add deck
 
       const entry = {
-        title: titleText,
+        title: titleText.trim(),
         questions: []
       }
 
       const param = {
-        key: titleText,
+        key: titleText.trim(),
         entry: entry,
       }
 
@@ -85,16 +133,35 @@ class AddDeckView extends Component {
       this.props.mapDispatchAddNewDeck(decks)
     })
     .then(() => {
-      // show success alert
+      // go back to list
 
-      Alert.alert(
-        'Success!',
-        'You created a new deck successfully.',
-        [
-          {text: 'Close', onPress: () => this.resetCurrentText()},
-        ],
-        { cancelable: false }
-      )
+      // go to individual view
+      const navigateAction = NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({
+            routeName: 'Home',
+            params: {title: titleText.trim()},
+          }),
+          NavigationActions.navigate({
+            routeName: 'DeckCard',
+            params: {title: titleText.trim()},
+          }),
+        ]
+      })
+      this.props.navigation.dispatch(navigateAction)
+
+
+
+      // show success alert
+      // Alert.alert(
+      //   'Success!',
+      //   'You created a new deck successfully.',
+      //   [
+      //     {text: 'Close', onPress: () => this.resetCurrentText()},
+      //   ],
+      //   { cancelable: false }
+      // )
 
     })
     .catch((err) => {
@@ -138,7 +205,7 @@ class AddDeckView extends Component {
         <TouchableOpacity
           style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
           onPress={this.addNewDeckRequest}>
-            <Text style={styles.submitBtnText}>SUBMIT</Text>
+            <Text style={styles.submitBtnText}>Create Deck</Text>
         </TouchableOpacity>
 
       </KeyboardAvoidingView>
@@ -201,13 +268,6 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
 })
-
-
-// function mapStateToProps ({ user }) {
-//   return {
-//     decks: user.decks
-//   }
-// }
 
 function mapDispatchToProps (dispatch) {
   return {

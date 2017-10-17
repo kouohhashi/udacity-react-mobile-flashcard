@@ -1,7 +1,8 @@
-import {
-  LOAD_SAVED_DECKS,
-  ADD_NEW_DECK,
-} from '../actions/UserActions'
+// import {
+//   LOAD_SAVED_DECKS,
+//   ADD_NEW_DECK,
+// } from '../actions/UserActions'
+import { LOAD_SAVED_DECKS, ADD_NEW_DECK } from '../actions/types'
 
 function user (state = {}, action) {
 

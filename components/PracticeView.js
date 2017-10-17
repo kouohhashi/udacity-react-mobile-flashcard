@@ -37,7 +37,15 @@ class PracticeView extends Component {
       quizIndex: state.quizIndex + 1,
       showAnswerFlg: false,
     }) )
+  }
 
+  restartQuiz = () => {
+    this.setState({
+      incorrectCount: 0,
+      quizIndex: 0,
+      showAnswerFlg: false,
+      correctCount:0,
+    })
   }
 
   render() {
@@ -58,10 +66,32 @@ class PracticeView extends Component {
     return (
       <View style={styles.container}>
 
+        <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+          }}>
 
-        <Text style={{color: darkBrown, fontSize: 14,}}>
-          {quizIndex + 1} / { questions.length }
-        </Text>
+          <Text style={{color: darkBrown, fontSize: 14,}}>
+            {quizIndex + 1} / { questions.length }
+          </Text>
+
+          <TouchableOpacity style={{flexDirection: 'row',}} onPress={this.restartQuiz}>
+            <Ionicons
+              style={{
+                marginTop: -6,
+                marginRight: 2,
+              }}
+              name='ios-refresh'
+              size={30}
+              color={darkBrown} />
+
+            <Text style={{color: darkBrown, fontSize: 14,}}>
+              Restart
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+
 
 
         <View style={{
@@ -76,6 +106,7 @@ class PracticeView extends Component {
           )}
 
         </View>
+
 
 
         <TouchableOpacity
